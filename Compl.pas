@@ -1,259 +1,180 @@
 ﻿Unit Compl;
+Interface
+uses Crt;
+const n = 3;
+Type Complex = record 
+               Re, Im: real;
+               end;     
+procedure InputZ(var z:Complex);
 
-  Interface
-  
-uses crt; {menu;}
-type Complex = record
-  Re, Im : real;
-end;
-procedure Add( u, v: Complex; var w: Complex);
-procedure Sub( u, v: Complex; var w: Complex);
-procedure Mult( u, v: Complex; var w: Complex);
-procedure Inv( z: Complex; var w: Complex);
-procedure Divz( u, v: Complex; var w: Complex);
-procedure Prod( a: real; z: Complex; var w: Complex);
-function Modul( z: Complex): real;
-procedure Sum(z: Complex; var w: real);
-procedure One(var z: Complex);
-procedure Zero(var z: Complex);
-procedure InputC(var z: Complex);
-procedure OutputC(z: Complex);
-procedure expC(z: Complex; var s: Complex);
-procedure cosC(z: Complex; var s: Complex);
-procedure sinC(z: Complex; var s: Complex);
-procedure Codj (z: Complex; var w: Complex);
+procedure OutputZ(var z:Complex);
+
+procedure Add(u, v: Complex; var w: Complex);
+
+procedure Sub(u, v: Complex; var w: Complex);
+
+procedure Mult(u, v: Complex; var w: Complex);
+
+procedure Inv(z:Complex; var w:Complex);
+
+procedure DivZ(u,v:Complex; var w:Complex);
+
+procedure Prod(a:real; z:Complex; var w:Complex);
+
+function Module(z:Complex): real;
+
+procedure Zero(var z:Complex);
+
+procedure One(var z:Complex);
+
+procedure expC(z:Complex; var S:Complex);
+
+procedure cosC(z:Complex; var S:Complex);
+
+procedure sinC(z:Complex; var S:Complex);
+
+procedure Codi(z:Complex; var w:Complex);
 
 procedure MenuCompl;
+
 procedure Wait;
 
-
-  Implementation
-  
-procedure Add( u, v: Complex; var w: Complex);
+Implementation     
+procedure InputZ(var z:Complex);
 begin
-  w.Re := u.Re + v.Re;
-  w.Im := u.Im + v.Im;
+  write('   ');
+  read(z.Re);
+  write('   ');
+  read(z.Im);
 end;
 
-procedure Sub( u, v: Complex; var w: Complex);
+procedure OutputZ(var z:Complex);
+var zim:real;
 begin
-  w.Re := u.Re - v.Re;
-  w.Im := w.Im - v.Im;
-end;
-
-procedure Mult( u, v: Complex; var w: Complex);
-begin
-  w.Re := u.Re * v.Re - u.Im * v.Im;
-  w.Im := u.Re * v.Im + u.Im * v.Re;
-end;
-
-procedure Inv( z: Complex; var w: Complex);
-var q: real;
-begin
-  q := sqr(z.Re) + sqr(z.Im);
-  w.Re := z.Re / q;
-  w.Im := -z.Im / q;
-end; 
-
-procedure Divz( u, v: Complex; var w: Complex);
-var q: Complex;
-begin
-  Inv(v, q);
-  Mult(u, q, w);
-end;
-
-procedure Prod( a: real; z: Complex; var w: Complex);
-begin
-  w.Re := z.Re * a;
-  w.Im := z.Im * a;
-end;
-
-function Modul( z: Complex): real;
-begin
-  Modul := sqrt(sqr(z.Re) + sqr(z.Im));
-end;
-
-procedure Sum( z: Complex; var w: real);
-begin
-  w := (1 - exp(ln(Modul(z))*20) * (z.Re + z.Im)) / (1 - Modul(z));
-end; 
-
-procedure One (var z: Complex);
-begin
-  z.Re := 1;
-  z.Im := 0;
-end;
-
-procedure Zero (var z: Complex);
-begin
-  z.Re := 0;
-  z.Im := 0;
-end;
-
-procedure InputC (var z: Complex);
-begin
-  GoToXY(10, 25); write ('Введите целую часть числа: '); read(z.Re);
-  GoToXY(10, 26); write ('Введите мнимую часть числа: '); read(z.Im);
-end;
-
-procedure OutputC (z: Complex);
-begin
-  GoToXY(10, 28); write('Результат: '); write(z.Re:2:3, ' + ', z.Im:2:3, '*i');
-end;
-
-procedure expC (z: Complex; var s: Complex);
-const eps = 0.001;
-var k: integer; p: Complex;
-begin 
-  One(p); One(s); k := 0;
-  while Modul(p) >= eps do
+  zim:= z.Im;
+  write(z.Re);
+  if z.Im >= 0 then
+    write('+')
+  else
   begin
-    k := k+1;
-    Mult(p, z, p);
-    Prod(1/k, p, p);
-    Add(s, p, s);
+    write('-');
+    z.Im:= -z.Im;
+  end;
+  write(z.Im + 'i');
+  z.Im:= zim;
+end;
+
+procedure Add(u, v: Complex; var w: Complex);
+begin
+  w.Re:= u.Re + v.Re;
+  w.Im:= u.Im + v.Im;
+end;
+
+procedure Sub(u, v: Complex; var w: Complex);
+begin
+  w.Re:= u.Re - v.Re;
+  w.Im:= u.Im - v.Im;
+end;
+
+procedure Mult(u, v: Complex; var w: Complex);
+begin
+  w.Re:= u.Re * v.Re - u.Im * v.Im;
+  w.Im:= u.Re * v.Im + v.Re * u.Im;
+end;
+
+procedure Inv(z:Complex; var w:Complex);
+var q:real;
+begin
+   q:=sqr(z.Re)+sqr(z.Im);
+   w.Re:=z.Re/q;
+   w.Im:=-z.Im/q;
+end;
+
+procedure DivZ(u,v:Complex; var w:Complex);
+var z:Complex;
+begin
+  Inv(v,z); Mult(u,z,w);
+end;
+
+procedure Prod(a:real; z:Complex; var w:Complex);
+begin
+  w.Re:= a * z.Re;
+  w.Im:= a * z.Im;
+end;
+
+function Module(z:Complex): real;
+begin
+  Module:= sqrt(sqr(z.Re) + sqr(z.Im));
+end;
+
+procedure Zero(var z:Complex);
+begin
+  z.Re:= 0;
+  z.Im:= 0;
+end;
+
+procedure One(var z:Complex);
+begin
+  z.Re:= 1;
+  z.Im:= 0;
+end;
+
+procedure expC(z:Complex; var S:Complex);
+const eps = 0.001;
+var k:integer; P:Complex;
+begin
+  One(P);
+  One(S);
+  k:=0;
+  while Module(P)>= eps do
+  begin
+    k:=k+1;
+    Mult(P, z, P);
+    Prod(1/k, P, P);
+    Add(S, P, S);
   end;
 end;
 
-procedure cosC(z: Complex; var s: Complex);
+procedure cosC(z:Complex; var S:Complex);
 const eps = 0.001;
-var k: integer; p, z2: Complex;
+var k:integer; P, z2:Complex;
 begin
   Mult(z, z, z2);
-  k := 0;
+  k:= 0;
   One(p);
   One(s);
-  while Modul(p) >= eps do
+  k:=0;
+  while Module(P)>= eps do
   begin
-    k := k + 2;
-    Mult(p, z2, p);
-    Prod(-1 / (k - 1) / k, p, p);
-    Add(s, p, s);
+    k:=k+2;
+    Mult(P, z2, P);
+    Prod(-1/(k-1) / k, P, P);
+    Add(S, P, S);
   end;
 end;
 
-procedure sinC(z: Complex; var s: Complex);
+procedure sinC(z:Complex; var S:Complex);
 const eps = 0.001;
-var k: integer; p, z2: Complex;
+var k:integer; P, z2:Complex;
 begin
   Mult(z, z, z2);
-  k := 0;
+  k:= 0;
   One(p);
   One(s);
-  while Modul(p) >= eps do
+  k:=0;
+  while Module(P)>= eps do
   begin
-    k := k + 2;
-    Mult(p, z2, p);
-    Prod(-1 / (k + 1) / k, p, p);
-    Add(s, p, s);
+    k:=k+2;
+    Mult(P, z2, P);
+    Prod(-1/(k+1) / k, P, P);
+    Add(S, P, S);
   end;
 end;
 
-procedure Codj (z: Complex; var w: Complex);
+procedure Codi(z:Complex; var w:Complex);
 begin
-  w.Re := z.Re;
-  w.Im := -z.Im;
-end;
-
-procedure MenuCompl;
-var Ok: boolean; Mode: integer; u, v, w, z: Complex; a: real;
-begin
-  Ok := true;
-  while Ok do
-    begin
-    clrscr;
-    writeln('Выберите пункт:');
-    writeln('1: Сложение комплексных чисел');
-    writeln('2: Разность комплексных чисел');
-    writeln('3: Умножение комплексных чисел');
-    writeln('4: Инверсия комплексных чисел');
-    writeln('5: Деление комплексных чисел');
-    writeln('6: Умножение комплексного числа на скаляр');
-    writeln('7: Модуль комплексного числа');
-    writeln('8: Сумма последовательности комплексного числа');
-    writeln('9: Экспонента комплексного числа');
-    writeln('10: Косинус комплексного числа');
-    writeln('11: Синус комплексного числа');
-    writeln('0: Выход');
-    
-    GoToXY(40, 23); read(Mode);
-    GoToXY(40, 23); clearline;
-  
-    case Mode of
-      1: begin
-        InputC(u); InputC(v);
-        Add(u, v, w);
-        OutputC(w);
-        Wait;
-      end;
-      2: begin
-        InputC(u); InputC(v);
-        Sub(u, v, w);
-        OutputC(w);
-        Wait;
-      end;
-      3: begin
-        InputC(u); InputC(v);
-        Mult(u, v, w);
-        OutputC(w);
-        Wait;
-      end;
-      4: begin
-        InputC(u);
-        Inv(u, w);
-        OutputC(w);
-        Wait;
-      end;
-      5: begin
-        InputC(u); InputC(v);
-        Divz(u, v, w);
-        OutputC(w);
-        Wait;
-      end;
-      6: begin
-        read(a); InputC(z);
-        Prod(a, z, w);
-        OutputC(w);
-        Wait;
-      end;
-      7: begin
-        InputC(z);
-        a := Modul(z);
-        writeln(a);
-        Wait;
-      end;
-      8: begin
-        InputC(u);
-        Sum(u, a);
-        writeln(a);
-        Wait;
-      end;
-      9: begin
-        InputC(v);
-        expC(v, w);
-        OutputC(w);
-        Wait;
-      end;
-      10: begin
-        InputC(u);
-        cosC(u, w);
-        OutputC(w);
-        Wait;
-      end;
-      11: begin
-        InputC(u);
-        sinC(u, w);
-        OutputC(w);
-        Wait;
-      end;
-      0: Ok := false
-      else
-      begin
-        writeln('Ошибка: Повторите ввод!');
-        Wait;
-      end;
-    end;
-  end;
+  w.Re:= z.Re;
+  w.Im:= -z.Im;
 end;
 
 procedure Wait;
@@ -262,4 +183,187 @@ begin
   while KeyPressed do ReadKey;
 end;
 
-End.
+procedure MenuCompl;
+var Mode:integer; Ok:boolean; q:real; u,v,w:Complex;
+begin
+  begin
+  Ok:= true;
+  ClrScr;
+  while Ok do
+  begin
+    ClrScr;
+    writeln('Выберите пункт');
+    writeln('1. Сложение комплексных чисел');
+    writeln('2. Вычитание комплексных чисел');
+    writeln('3. Умножение комплексных чисел');
+    writeln('4. Инверсия комплексного числа');
+    writeln('5. Деление комплексных чисел');
+    writeln('6. Умножение комплексного числа на скаляр');
+    writeln('7. Модуль комплексного числа');
+    writeln('8. Экспонента комплексного числа');
+    writeln('9. Косинус комплексного числа');
+    writeln('10. Синус комплексного числа');
+    writeln('0. Выход');
+    goToXY(40, 23);
+    read(Mode);
+    GoToXY(40, 23);
+    ClearLine;
+    case Mode of
+      1: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           InputZ(v);
+           writeln('');
+           write('   ');
+           OutputZ(u);
+           write(' + ');
+           OutputZ(v);
+           write(' = ');
+           Add(u, v, w);
+           OutputZ(w);
+           Wait;
+         end;
+      2: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           InputZ(v);
+           writeln('');
+           write('   ');
+           OutputZ(u);
+           write(' - ');
+           OutputZ(v);
+           write(' = ');
+           Sub(u, v, w);
+           OutputZ(w);
+           Wait;
+         end;
+      3: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           InputZ(v);
+           writeln('');
+           write('   ');
+           OutputZ(u);
+           write(' * ');
+           OutputZ(v);
+           write(' = ');
+           Mult(u, v, w);
+           OutputZ(w);
+           Wait;
+         end;
+      4: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           write('   Число: ');
+           OutputZ(u);
+           writeln('');
+           write('   Инвертированное число: ');
+           Inv(u, w);
+           OutputZ(w);
+           Wait;
+         end;
+      5: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           InputZ(v);
+           writeln('');
+           write('   ');
+           OutputZ(u);
+           write(' / ');
+           OutputZ(v);
+           write(' = ');
+           DivZ(u, v, w);
+           OutputZ(w);
+           Wait;
+         end;
+      6: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           GoToXY(3, 5);
+           read(q);
+           writeln('');
+           write('   ');
+           OutputZ(u);
+           write(' * ' + q);
+           write(' = ');
+           Prod(q, u, w);
+           OutputZ(w);
+           Wait;
+         end;
+      7: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           write('   Число: ');
+           OutputZ(u);
+           writeln('');
+           write('   Его модуль: ' + Module(u));
+           Wait;
+         end;
+      8: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           write('   Число: ');
+           OutputZ(u);
+           writeln('');
+           write('   Его экспонента: ');
+           ExpC(u, w);
+           OutputZ(w);
+           Wait;
+         end;
+      9: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           write('   Число: ');
+           OutputZ(u);
+           writeln('');
+           write('   Его косинус: ');
+           CosC(u, w);
+           OutputZ(w);
+           Wait;
+         end;
+      10: begin
+           ClrScr;
+           writeln('');
+           InputZ(u);
+           writeln('');
+           write('   Число: ');
+           OutputZ(u);
+           writeln('');
+           write('   Его синус: ');
+           SinC(u, w);
+           OutputZ(w);
+           Wait;
+         end;
+      0: Ok:= False
+    else
+    begin
+      GoToXY(30, 24);
+      write('Ошибка! Повторите ввод!');
+      Wait;
+    end;
+  end;
+end;
+end;
+end;
+
+Initialization
+
+end.

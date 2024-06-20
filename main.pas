@@ -1,5 +1,5 @@
-﻿uses Crt, Compl, CMatr, Vect, VectC,
-     Raznoe, Stack, Queue, StudList, 
+﻿uses Crt, Compl, CMatr, Vect, CVect,
+     Favorites, Stack, Queue, StudList, 
      MakeFiles,
      MakeTree, NodeTrees, BinTrees;
      
@@ -30,8 +30,8 @@ begin
       1: MenuCompl;
       2: MenuCMatr;
       3: MenuVect;
-      4: MenuVectC;
-      5: MenuRaznoe;
+      4: MenuCVect;
+      5: MenuFavorites;
       6: MenuStack;
       7: MenuQueue;
       8: MenuStud;
