@@ -249,7 +249,7 @@ end;
 procedure DeleteSubTree(Top: NodePtr);
 begin
   GoToXY(30, 19); 
-  writeln('Введите искомый узел');
+  writeln('Введите узел, у которого нужно удалить поддерево');
   GoToXY(40, 21); 
   readln(Symbol);
   Flag := True; 
@@ -263,14 +263,26 @@ begin
   else
   begin
     GoToXY(25, 20);
-    writeln('Желаете удалить узел ', Leaf^.Name, '? y/n');
+    writeln('Желаете удалить левое поддерево узла ', Leaf^.Name, '? y/n');
     GoToXY(40, 21); 
     readln(Key);
     GoToXY(25, 20);
     Clearline;
     GoToXY(40, 21); 
     Clearline;
-    if Key in ['y', 'Y', 'н', 'Н'] then Leaf := Nil
+    if Key in ['y', 'Y', 'н', 'Н'] then Leaf^.Left := Nil
+    else
+    begin
+      GoToXY(25, 20);
+      writeln('Желаете удалить правое поддерево узла ', Leaf^.Name, '? y/n');
+      GoToXY(40, 21); 
+      readln(Key);
+      GoToXY(25, 20);
+      Clearline;
+      GoToXY(40, 21); 
+      Clearline;
+      if Key in ['y', 'Y', 'н', 'Н'] then Leaf^.Right := Nil
+    end;
   end;
 end;
 
